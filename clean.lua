@@ -7,6 +7,5 @@ newaction {
         os.rmdir("./.vs")
         os.rmdir("./.idea")
         os.rmdir("./Build")
-        os.remove("*.sln")
     end
 }
