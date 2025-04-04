@@ -1,7 +1,7 @@
 project "Library"
 
     kind "StaticLib"
-    location(rootPath .. "/Generated")
+    location(rootPath .. "/Generated/Projects")
 
     targetdir(targetBuildPath .. "/%{prj.name}")
     objdir(objBuildPath .. "/%{prj.name}")

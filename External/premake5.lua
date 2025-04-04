@@ -1,7 +1,7 @@
 project "googletest"
 
     kind "StaticLib"
-    location(rootPath .. "/Generated")
+    location(rootPath .. "/Generated/Projects")
 
     targetdir(targetBuildPath .. "/External")
     objdir(objBuildPath .. "/%{prj.name}")

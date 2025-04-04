@@ -3,6 +3,8 @@ require "vscode"
 
 workspace "Workspace"
 
+    location("Generated")
+
     cppdialect "C++23"
     warnings "Extra"
     fatalwarnings { "All" }
