@@ -1,9 +1,21 @@
-#include <iostream>
-
-#include <lib.h>
+#include <raylib/raylib.h>
+#include <limits>
+#include <cstdint>
 
 int main()
 {
-    std::cout << "Hello world!\n" << "The meaning of life is " << DummyLibNamespace::libFunc() << "\n";
-    return 0;
+    InitWindow(400, 400, "Test");
+    SetTargetFPS(std::numeric_limits<std::int32_t>::max());
+    
+    while (!WindowShouldClose())
+    {
+        BeginDrawing();
+        {
+            ClearBackground(RAYWHITE);
+            DrawText("Hello World!", 100, 100, 20, LIGHTGRAY);
+        }
+        EndDrawing();
+    }
+
+    CloseWindow();
 }

@@ -6,6 +6,12 @@ project "Application"
     targetdir(targetBuildPath .. "/%{prj.name}")
     objdir(objBuildPath .. "/%{prj.name}")
     files {"src/**.hpp", "src/**.cpp"}
-    includedirs{"../Library/include"}
+    includedirs{"../Library/include", targetBuildPath .. "/External/Include"}
 
-    links{"Library"}
+    dependson("RayLib")
+
+    links
+    {
+        "Library",
+        targetBuildPath .. "/External/lib/raylib", "winmm" -- Raylib required libraries
+    }

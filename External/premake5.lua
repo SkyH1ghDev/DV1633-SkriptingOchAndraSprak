@@ -38,7 +38,7 @@ project "RayLib"
         kind "Utility"
         prebuildcommands{
             "{MKDIR} %{prj.objdir}",
-            "cmake -S " .. libDirectory .. " -B %{prj.objdir} -DCMAKE_INSTALL_PREFIX=%{prj.targetdir} -DCMAKE_MSVC_RUNTIME_LIBRARY='MultiThreadedDebug'",
+            "cmake -S " .. libDirectory .. " -B %{prj.objdir} -DCMAKE_INSTALL_PREFIX=%{prj.targetdir} -DCMAKE_INSTALL_INCLUDEDIR=include/raylib -DCMAKE_MSVC_RUNTIME_LIBRARY='MultiThreadedDebug'",
             "cmake --build %{prj.objdir} --config %{cfg.buildcfg} --target install",
         }
 
