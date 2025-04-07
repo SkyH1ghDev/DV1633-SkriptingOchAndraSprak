@@ -4,3 +4,6 @@
 [submodule "External/RayLib"]
 	path = External/RayLib
 	url = https://github.com/raysan5/raylib.git
+[submodule "External/LuaJIT"]
+	path = External/LuaJIT
+	url = https://github.com/LuaJIT/LuaJIT.git
