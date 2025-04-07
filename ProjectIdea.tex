@@ -1,0 +1,70 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\usepackage[margin=2.5cm]{geometry}
+\usepackage[parfill]{parskip}
+
+\usepackage{float}
+\usepackage{tcolorbox}
+
+\title{Total Turkey Donkey\\\large{Interaktiv 2D plattformare}}
+\author{Christoffer Bohman \\ Sebastian Lorensson
+}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% SPELIDÉ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Spelidé}
+
+Applikationen är ett 2D plattformsspel starkt inspirerat av \textbf{Ultimate Chicken Horse}. Spelet är ett multiplayer spel och går ut på att navigera en bana och nå en slutzon för att få ett poäng. Spelet delas in i  1 - n st rundor per match. Spelaren med flest poäng i slutet av en match vinner.
+
+När applikationen börjar kan upp till 4 spelare välja att vara med och spela. Spelaren benämnd \textbf{Player 1} får sedan välja spel-läge: \textbf{hot-seat} eller \textbf{simultaneous}. De kan också välja hur många rundor som ska spelas, hur lång (om någon) tidsbegränsning rundorna ska ha och eventuellt fler.
+
+\subsection{Spel-loop}
+En runda är indelad i två delar: en nivå-redigerings-del och en plattformsspelar-del.
+\begin{enumerate}
+    \item I börjar av en runda får alla spelare tillgång till level-editorn och får sätta ner ett objekt i spelvärlden. När alla spelare har valt ett objekt börjar real-tids-delen av rundan.
+    \item Baserat på inställningarna spelar nu rundan ut på ett av två sätt:
+    \begin{enumerate}
+        \item \textbf{Simultaneous (sv. Samtida):} Alla spelare spelar banan samtidigt och den första som når slutzonen får ett poäng.
+        \item \textbf{Hot-seat (sv. Het potatis):} Spelare turas om att spela banan, fr.o.m. \textbf{Player 1} upp till \textbf{Player 4}, baserat på hur många som valdes i huvudmenyn. Det spelar på samma sätt som det samtida läget, men varje spelare kan få varsitt poäng.
+    \end{enumerate}
+    \item Gå tillbaka till 1. eller avsluta matchen om antalet rundor spelade är samma som antalet som valdes i huvudmenyn.
+\end{enumerate}
+
+\subsection{Spelidé forts.}
+Komplexiteten i spelet uppstår från faktumet att de föremål som spelare placerar i början på varje runda kvarstår under spelets gång, vilket skapar ett behov till att balansera hur svår banan är för motståndarna och för en själv.
+
+Exempel på objekt som spelare kan sätta ner:
+\begin{itemize}
+    \item armborst som skjuter pilar i en rät linje längs armborstets riktning
+    \item trampoliner som skjuter iväg spelarens karaktär
+    \item rörliga plattformar som spelare kan åka på
+    \item eldtunnor som dödar spelaren karaktär om de landar på dem
+    \item hammare som förstör placerade objekt i spelnivån
+\end{itemize}
+
+En spelare förlorar en runda på ett av tre sätt:
+
+\begin{enumerate}
+    \item Spelarens karaktär dör, antingen av:
+    \begin{enumerate}
+        \item Spelarens karaktär faller ur banan
+        \item Spelarens karaktär tar skada från ett föremål
+    \end{enumerate}
+    \item Tiden tar slut
+    \item En annan spelare når flaggan först (endast spelläge \textbf{(a))}.
+\end{enumerate}
+
+\section{Redigeringsverktyg}
+
+Spelets banor är designade för att användas med ett redigeringsverktyg. Varje bana laddas från en fil och hålls i minnet under spelets gång. I början på en runda \textbf{1.} får varje spelare välja från ett urval av 3 slumpade föremål som de sedan kan placera i spelbanan genom att translatera och rotera föremål längs med ett rutnät. 
+
+Om det finns tid kommer spelare även kunna göra egna banor och spara dem, med ett urval av vilka föremål som kan dyka upp (föremåls-poolen är slumpad men bara de valda föremålen är i slump-poolen).
+\end{document}
