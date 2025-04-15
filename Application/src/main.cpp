@@ -1,4 +1,5 @@
 #include <raylib/raylib.h>
+#include <LuaJIT/lua.hpp>
 #include <limits>
 #include <cstdint>
 
@@ -17,5 +18,8 @@ int main()
         EndDrawing();
     }
 
+    lua_State* l = lua_open();
+    lua_close(l);
+    
     CloseWindow();
 }

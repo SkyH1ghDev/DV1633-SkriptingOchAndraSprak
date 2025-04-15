@@ -8,10 +8,17 @@ project "Application"
     files {"src/**.hpp", "src/**.cpp"}
     includedirs{"../Library/include", targetBuildPath .. "/External/Include"}
 
-    dependson("RayLib")
+    -- LibDirs doesn't work for some reason. MSVC doesn't find raylib
+    --[[libdirs
+    {
+        targetBuildPath .. "/External/lib"
+    }]]--
+
+    dependson("RayLib", "LuaJIT")
 
     links
     {
         "Library",
-        targetBuildPath .. "/External/lib/raylib", "winmm" -- Raylib required libraries
+        targetBuildPath .. "/External/lib/raylib", "winmm", -- Raylib required libraries
+        targetBuildPath .. "/External/lib/luajit", targetBuildPath .. "/External/lib/lua51", targetBuildPath .. "/External/lib/minilua" -- LuaJIT required libraries
     }

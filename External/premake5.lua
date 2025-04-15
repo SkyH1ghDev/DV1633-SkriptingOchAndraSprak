@@ -1,3 +1,5 @@
+local libDirectory
+
 project "GoogleTest"
 
     kind "StaticLib"
@@ -50,7 +52,7 @@ project "RayLib"
             "cmake --build %{prj.objdir} --config %{cfg.buildcfg} --target install",
         }
 
-project "RayLib"
+project "LuaJIT"
 
     kind "StaticLib"
     location(rootPath .. "/Generated/Projects")
@@ -58,14 +60,30 @@ project "RayLib"
     targetdir(targetBuildPath .. "/External")
     objdir(objBuildPath .. "/%{prj.name}")
 
-    libDirectory = "\"" .. path.getdirectory(_SCRIPT) .. "\"" .. "/%{prj.name}"
+    libDirectory = "\"" .. path.getdirectory(_SCRIPT) .. "/%{prj.name}" 
+    local includeCopyPath = "\"" .. targetBuildPath .. "/External/include/%{prj.name}\""
+    local libCopyPath = "\"" .. targetBuildPath .. "/External/lib\""
 
     filter "system:windows"
         kind "Utility"
-        prebuildcommands{
-            "{MKDIR} %{prj.objdir}",
-            "cmake -S " .. libDirectory .. " -B %{prj.objdir} -DCMAKE_INSTALL_PREFIX=%{prj.targetdir} -DCMAKE_INSTALL_INCLUDEDIR=include/raylib -DCMAKE_MSVC_RUNTIME_LIBRARY='MultiThreadedDebug'",
-            "cmake --build %{prj.objdir} --config %{cfg.buildcfg} --target install",
+        
+        buildcommands{
+            rootPath .. "External/LuaJIT/src/msvcbuild static",
+        }
+
+        postbuildcommands{
+            "{MKDIR} " .. includeCopyPath,
+            "{COPY} \"" .. rootPath .. "/External/LuaJIT/src/lua.hpp" .. "\" " .. includeCopyPath,
+            "{COPY} \"" .. rootPath .. "/External/LuaJIT/src/lua.h" .. "\" " .. includeCopyPath,
+            "{COPY} \"" .. rootPath .. "/External/LuaJIT/src/luaconf.h" .. "\" " .. includeCopyPath,
+            "{COPY} \"" .. rootPath .. "/External/LuaJIT/src/lauxlib.h" .. "\" " .. includeCopyPath,
+            "{COPY} \"" .. rootPath .. "/External/LuaJIT/src/lualib.h" .. "\" " .. includeCopyPath,
+            "{COPY} \"" .. rootPath .. "/External/LuaJIT/src/luajit.h" .. "\" " .. includeCopyPath,
+            "{COPY} \"" .. rootPath .. "/External/LuaJIT/src/*.lib\" " .. libCopyPath,
+            
+            "{DELETE} \"" .. rootPath .. "/External/LuaJIT/src/vc140.pdb\"",
+            "{DELETE} \"" .. rootPath .. "/External/LuaJIT/src/lua51.pdb\"",
+            "{DELETE} \"" .. rootPath .. "/External/LuaJIT/src/luajit.pdb\""
         }
 
     --[[filter "system:linux"
