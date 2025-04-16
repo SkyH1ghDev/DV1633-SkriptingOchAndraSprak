@@ -1,11 +1,21 @@
 #include <raylib/raylib.h>
-#include <LuaJIT/lua.hpp>
+#include <LuaDeleter.hpp>
+#include <memory>
 #include <limits>
 #include <cstdint>
+#include <iostream>
+
+#define _CRTDBG_MAP_ALLOC
+
+#include <crtdbg.h>
 
 int main()
 {
+    _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+    
     InitWindow(400, 400, "Test");
+
+    // Uncap FPS
     SetTargetFPS(std::numeric_limits<std::int32_t>::max());
     
     while (!WindowShouldClose())
@@ -18,8 +28,14 @@ int main()
         EndDrawing();
     }
 
-    lua_State* l = lua_open();
-    lua_close(l);
+    std::unique_ptr<lua_State, LuaDeleter<lua_State>> luaState
+    (
+        lua_open(),
+        LuaDeleter<lua_State>()
+    );
+
+    std::cout << luaState;
     
     CloseWindow();
+    return 0;
 }

@@ -20,7 +20,7 @@ project "GoogleTest"
 
     filter "system:linux"
         kind "Makefile"
-        buildcommands{
+        prebuildcommands{
             "{MKDIR} %{prj.objdir}",
             "cmake -S " .. libDirectory .. " -B %{prj.objdir} -DCMAKE_INSTALL_PREFIX=%{prj.targetdir}",
             "cmake --build %{prj.objdir} --config %{cfg.buildcfg} --target install",
@@ -60,27 +60,31 @@ project "LuaJIT"
     targetdir(targetBuildPath .. "/External")
     objdir(objBuildPath .. "/%{prj.name}")
 
-    libDirectory = "\"" .. path.getdirectory(_SCRIPT) .. "/%{prj.name}" 
+    libDirectory = "\"" .. path.getdirectory(_SCRIPT) .. "/%{prj.name}"
     local includeCopyPath = "\"" .. targetBuildPath .. "/External/include/%{prj.name}\""
     local libCopyPath = "\"" .. targetBuildPath .. "/External/lib\""
 
     filter "system:windows"
         kind "Utility"
         
-        buildcommands{
-            rootPath .. "External/LuaJIT/src/msvcbuild static",
+        prebuildcommands{
+            "{CHDIR} " .. rootPath .. "/External/LuaJIT/src",
+            "msvcbuild.bat static"
         }
+
 
         postbuildcommands{
             "{MKDIR} " .. includeCopyPath,
-            "{COPY} \"" .. rootPath .. "/External/LuaJIT/src/lua.hpp" .. "\" " .. includeCopyPath,
-            "{COPY} \"" .. rootPath .. "/External/LuaJIT/src/lua.h" .. "\" " .. includeCopyPath,
-            "{COPY} \"" .. rootPath .. "/External/LuaJIT/src/luaconf.h" .. "\" " .. includeCopyPath,
-            "{COPY} \"" .. rootPath .. "/External/LuaJIT/src/lauxlib.h" .. "\" " .. includeCopyPath,
-            "{COPY} \"" .. rootPath .. "/External/LuaJIT/src/lualib.h" .. "\" " .. includeCopyPath,
-            "{COPY} \"" .. rootPath .. "/External/LuaJIT/src/luajit.h" .. "\" " .. includeCopyPath,
-            "{COPY} \"" .. rootPath .. "/External/LuaJIT/src/*.lib\" " .. libCopyPath,
-            
+            "{COPY} \"" .. rootPath .. "/External/LuaJIT/src/lua.hpp\" " .. includeCopyPath,
+            "{COPY} \"" .. rootPath .. "/External/LuaJIT/src/lua.h\" " .. includeCopyPath,
+            "{COPY} \"" .. rootPath .. "/External/LuaJIT/src/luaconf.h\" " .. includeCopyPath,
+            "{COPY} \"" .. rootPath .. "/External/LuaJIT/src/lauxlib.h\" " .. includeCopyPath,
+            "{COPY} \"" .. rootPath .. "/External/LuaJIT/src/lualib.h\" " .. includeCopyPath,
+            "{COPY} \"" .. rootPath .. "/External/LuaJIT/src/luajit.h\" " .. includeCopyPath,
+            "{COPY} \"" .. rootPath .. "/External/LuaJIT/src/lua51.lib\" " .. libCopyPath,
+            "{COPY} \"" .. rootPath .. "/External/LuaJIT/src/luajit.lib\" " .. libCopyPath,
+            "{COPY} \"" .. rootPath .. "/External/LuaJIT/src/minilua.lib\" " .. libCopyPath,
+        
             "{DELETE} \"" .. rootPath .. "/External/LuaJIT/src/vc140.pdb\"",
             "{DELETE} \"" .. rootPath .. "/External/LuaJIT/src/lua51.pdb\"",
             "{DELETE} \"" .. rootPath .. "/External/LuaJIT/src/luajit.pdb\""
