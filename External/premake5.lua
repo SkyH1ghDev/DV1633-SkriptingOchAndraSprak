@@ -72,7 +72,6 @@ project "LuaJIT"
             "msvcbuild.bat static"
         }
 
-
         postbuildcommands{
             "{MKDIR} " .. includeCopyPath,
             "{COPY} \"" .. rootPath .. "/External/LuaJIT/src/lua.hpp\" " .. includeCopyPath,
