@@ -7,3 +7,6 @@
 [submodule "External/GoogleTest"]
 	path = External/GoogleTest
 	url = https://github.com/google/googletest.git
+[submodule "External/Entt"]
+	path = External/Entt
+	url = https://github.com/skypjack/entt.git
