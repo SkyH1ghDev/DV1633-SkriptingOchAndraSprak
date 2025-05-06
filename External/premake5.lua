@@ -52,6 +52,31 @@ project "RayLib"
             "cmake --build %{prj.objdir} --config %{cfg.buildcfg} --target install",
         }
 
+project "Entt"
+    kind "StaticLib"
+    location(rootPath .. "/Generated/Projects")
+
+    targetdir(targetBuildPath .. "/External")
+    objdir(objBuildPath .. "/%{prj.name}")
+
+    libDirectory = "\"" .. path.getdirectory(_SCRIPT) .. "/%{prj.name}\""
+
+    filter "system:windows"
+        kind "Utility"
+        prebuildcommands{
+            "{MKDIR} %{prj.objdir}",
+            "cmake -S " .. libDirectory .. " -B %{prj.objdir} -DCMAKE_INSTALL_PREFIX=%{prj.targetdir} -DENTT_USE_LIBCPP=true -DCMAKE_MSVC_RUNTIME_LIBRARY='MultiThreadedDebug'",
+            "cmake --build %{prj.objdir} --config %{cfg.buildcfg} --target install",
+        }
+
+    filter "system:linux"
+        kind "Makefile"
+        buildcommands{
+            "{MKDIR} %{prj.objdir}",
+            "cmake -S " .. libDirectory .. " -B %{prj.objdir} -DCMAKE_INSTALL_PREFIX=%{prj.targetdir}",
+            "cmake --build %{prj.objdir} --config %{cfg.buildcfg} --target install",
+        }
+
 project "LuaJIT"
 
     kind "StaticLib"
@@ -66,14 +91,13 @@ project "LuaJIT"
 
     filter "system:windows"
         kind "Utility"
-        
-        prebuildcommands{
-            "{CHDIR} " .. rootPath .. "/External/LuaJIT/src",
-            "msvcbuild.bat static"
-        }
 
-        postbuildcommands{
+        prebuildcommands {
+            "{CHDIR} " .. rootPath .. "/External/LuaJIT/src",
+            "start /wait /b msvcbuild static",
+
             "{MKDIR} " .. includeCopyPath,
+            "{MKDIR} " .. libCopyPath,
             "{COPY} \"" .. rootPath .. "/External/LuaJIT/src/lua.hpp\" " .. includeCopyPath,
             "{COPY} \"" .. rootPath .. "/External/LuaJIT/src/lua.h\" " .. includeCopyPath,
             "{COPY} \"" .. rootPath .. "/External/LuaJIT/src/luaconf.h\" " .. includeCopyPath,
@@ -83,10 +107,11 @@ project "LuaJIT"
             "{COPY} \"" .. rootPath .. "/External/LuaJIT/src/lua51.lib\" " .. libCopyPath,
             "{COPY} \"" .. rootPath .. "/External/LuaJIT/src/luajit.lib\" " .. libCopyPath,
             "{COPY} \"" .. rootPath .. "/External/LuaJIT/src/minilua.lib\" " .. libCopyPath,
-        
-            "{DELETE} \"" .. rootPath .. "/External/LuaJIT/src/vc140.pdb\"",
-            "{DELETE} \"" .. rootPath .. "/External/LuaJIT/src/lua51.pdb\"",
-            "{DELETE} \"" .. rootPath .. "/External/LuaJIT/src/luajit.pdb\""
+            "{COPY} \"" .. rootPath .. "/External/LuaJIT/src/luajit.pdb\" " .. libCopyPath,
+            
+            -- Remove because of gitignore thingy
+            "{DELETE} \"" .. rootPath .. "/External/LuaJIT/src/luajit.pdb\"",
+            "{DELETE} \"" .. rootPath .. "/External/LuaJIT/src/vc140.pdb\""
         }
 
     --[[filter "system:linux"
