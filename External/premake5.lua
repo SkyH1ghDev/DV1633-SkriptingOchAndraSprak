@@ -65,7 +65,7 @@ project "Entt"
         kind "Utility"
         prebuildcommands{
             "{MKDIR} %{prj.objdir}",
-            "cmake -S " .. libDirectory .. " -B %{prj.objdir} -DCMAKE_INSTALL_PREFIX=%{prj.targetdir} -DENTT_USE_LIBCPP=true -DCMAKE_MSVC_RUNTIME_LIBRARY='MultiThreadedDebug'",
+            "cmake -S " .. libDirectory .. " -B %{prj.objdir} -DCMAKE_INSTALL_PREFIX=%{prj.targetdir} -DENTT_USE_LIBCPP=true -DENTT_INSTALL=true -DCMAKE_MSVC_RUNTIME_LIBRARY='MultiThreadedDebug'",
             "cmake --build %{prj.objdir} --config %{cfg.buildcfg} --target install",
         }
 

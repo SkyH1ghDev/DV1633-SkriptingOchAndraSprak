@@ -1,5 +1,6 @@
 #include <raylib/raylib.h>
 #include <LuaDeleter.hpp>
+#include <entt/entt.hpp>
 #include <memory>
 #include <limits>
 #include <cstdint>
@@ -41,7 +42,7 @@ void DumpStack(const std::unique_ptr<lua_State, LuaDeleter<lua_State>>& luaState
 int main()
 {
     _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-
+    
     // ------------------------------------- //
     // RAYLIB                                //
     // ------------------------------------- //
@@ -61,6 +62,18 @@ int main()
     }
     
     CloseWindow();
+
+    // ------------------------------------- //
+    // ENTT                                  //
+    // ------------------------------------- //
+
+    std::vector<std::uint32_t> testVec = {5, 2, 3, 6, 18, 7, 4};
+    entt::insertion_sort{}(testVec.begin(), testVec.end());
+
+    for (auto num : testVec)
+    {
+        std::cout << num << "\n";
+    }
     
     // ------------------------------------- //
     // LUA                                   //
