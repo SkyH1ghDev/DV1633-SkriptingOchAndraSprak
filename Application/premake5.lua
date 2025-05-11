@@ -14,7 +14,7 @@ project "Application"
         targetBuildPath .. "/External/lib"
     }]]--
 
-    dependson("RayLib", "LuaJIT", "Library", "EnTT")
+    dependson("RayLib", "LuaJIT", "Library", "Entt")
 
     links
     {
