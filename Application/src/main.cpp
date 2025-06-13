@@ -6,11 +6,24 @@
 #include <cstdint>
 #include <iostream>
 #include <string>
+#include <GameBase/Game.hpp>
 
 #define _CRTDBG_MAP_ALLOC
-
 #include <crtdbg.h>
 
+int main()
+{
+    _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+    
+    // Stack allocate application runtime for correct memory leak information
+    {
+        Library::GameBase::Game::Run();
+    }
+
+    return 0;
+}
+
+/*
 std::string GetValueString(lua_State* L, int i)
 {
     switch (lua_type(L, i))
@@ -88,4 +101,4 @@ int main()
     DumpStack(luaState);
 
     return 0;
-}
+}*/
