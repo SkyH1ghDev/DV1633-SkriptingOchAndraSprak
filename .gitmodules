@@ -10,3 +10,9 @@
 [submodule "External/Entt"]
 	path = External/Entt
 	url = https://github.com/skypjack/entt.git
+[submodule "External/Sol2"]
+	path = External/Sol2
+	url = https://github.com/ThePhD/sol2.git
+[submodule "External/LuaJIT-CMake"]
+	path = External/LuaJIT-CMake
+	url = https://github.com/zhaozg/luajit-cmake.git
