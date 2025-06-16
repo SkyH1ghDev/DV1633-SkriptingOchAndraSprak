@@ -77,7 +77,62 @@ project "Entt"
             "cmake --build %{prj.objdir} --config %{cfg.buildcfg} --target install",
         }
 
+
 project "LuaJIT"
+    kind "StaticLib"
+    location(rootPath .. "/Generated/Projects")
+
+    targetdir(targetBuildPath .. "/External")
+    objdir(objBuildPath .. "/lua")
+
+    libDirectory = "\"" .. path.getdirectory(_SCRIPT) .. "/LuaJIT-CMake\""
+
+    filter "system:windows"
+        kind "Utility"
+        prebuildcommands{
+            "{MKDIR} %{prj.objdir}",
+            "cmake -S " .. libDirectory .. " -B %{prj.objdir} -DCMAKE_INSTALL_PREFIX=%{prj.targetdir} -DBUILD_SHARED_LIBS=false -DLUA_TARGET_SHARED=false -DLUAJIT_ENABLE_LUA52COMPAT=false -DLUAJIT_BUILD_EXE=false -DLUAJIT_DIR=\"" .. path.getdirectory(_SCRIPT) .. "/%{prj.name}\" -DCMAKE_INSTALL_INCLUDEDIR=\"include\" -DCMAKE_MSVC_RUNTIME_LIBRARY='MultiThreadedDebug'",
+            "cmake --build %{prj.objdir} --config %{cfg.buildcfg} --target install",
+            --"{MOVE} \"" .. targetBuildPath .. "/External/include/luajit\" \"" .. targetBuildPath .. "/External/include/lua\""
+        }
+
+    filter "system:linux"
+    kind "Makefile"
+        buildcommands{
+            "{MKDIR} %{prj.objdir}",
+            "cmake -S " .. libDirectory .. " -B %{prj.objdir} -DCMAKE_INSTALL_PREFIX=%{prj.targetdir}",
+            "cmake --build %{prj.objdir} --config %{cfg.buildcfg} --target install",
+        }
+
+
+project "Sol2"
+    kind "StaticLib"
+    location(rootPath .. "/Generated/Projects")
+
+    targetdir(targetBuildPath .. "/External")
+    objdir(objBuildPath .. "/%{prj.name}")
+
+    libDirectory = "\"" .. path.getdirectory(_SCRIPT) .. "/%{prj.name}\""
+
+
+
+    filter "system:windows"
+        kind "Utility"
+        prebuildcommands{
+            "{MKDIR} %{prj.objdir}",
+            "cmake -S " .. libDirectory .. " -B %{prj.objdir} -DCMAKE_INSTALL_PREFIX=%{prj.targetdir} -DSOL_LUAJIT=true -DCMAKE_MSVC_RUNTIME_LIBRARY='MultiThreadedDebug'",
+            "cmake --build %{prj.objdir} --config %{cfg.buildcfg} --target install",
+        }
+
+    filter "system:linux"
+        kind "Makefile"
+        buildcommands{
+            "{MKDIR} %{prj.objdir}",
+            "cmake -S " .. libDirectory .. " -B %{prj.objdir} -DCMAKE_INSTALL_PREFIX=%{prj.targetdir}",
+            "cmake --build %{prj.objdir} --config %{cfg.buildcfg} --target install",
+        }
+
+project "Lua51"
 
     kind "StaticLib"
     location(rootPath .. "/Generated/Projects")
@@ -99,11 +154,6 @@ project "LuaJIT"
             "{MKDIR} " .. includeCopyPath,
             "{MKDIR} " .. libCopyPath,
             "{COPY} \"" .. rootPath .. "/External/LuaJIT/src/lua.hpp\" " .. includeCopyPath,
-            "{COPY} \"" .. rootPath .. "/External/LuaJIT/src/lua.h\" " .. includeCopyPath,
-            "{COPY} \"" .. rootPath .. "/External/LuaJIT/src/luaconf.h\" " .. includeCopyPath,
-            "{COPY} \"" .. rootPath .. "/External/LuaJIT/src/lauxlib.h\" " .. includeCopyPath,
-            "{COPY} \"" .. rootPath .. "/External/LuaJIT/src/lualib.h\" " .. includeCopyPath,
-            "{COPY} \"" .. rootPath .. "/External/LuaJIT/src/luajit.h\" " .. includeCopyPath,
             "{COPY} \"" .. rootPath .. "/External/LuaJIT/src/lua51.lib\" " .. libCopyPath,
             "{COPY} \"" .. rootPath .. "/External/LuaJIT/src/luajit.lib\" " .. libCopyPath,
             "{COPY} \"" .. rootPath .. "/External/LuaJIT/src/minilua.lib\" " .. libCopyPath,

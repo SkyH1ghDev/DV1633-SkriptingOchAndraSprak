@@ -14,11 +14,11 @@ project "Application"
         targetBuildPath .. "/External/lib"
     }]]--
 
-    dependson("RayLib", "LuaJIT", "Library", "EnTT")
+    dependson("RayLib", "LuaJIT", "Lua51", "Library", "EnTT")
 
     links
     {
         "Library",
         targetBuildPath .. "/External/lib/raylib", "winmm", -- Raylib required libraries
-        targetBuildPath .. "/External/lib/luajit", targetBuildPath .. "/External/lib/lua51" -- LuaJIT required libraries
+        targetBuildPath .. "/External/lib/libluajit"-- , targetBuildPath .. "/External/lib/lua51" -- LuaJIT required libraries
     }

@@ -1,15 +1,14 @@
-#include <raylib/raylib.h>
-#include <LuaDeleter.hpp>
-#include <entt/entt.hpp>
-#include <memory>
-#include <limits>
-#include <cstdint>
-#include <iostream>
-#include <string>
 #include <GameBase/Game.hpp>
+extern "C"
+{
+    #include <lua/lua.h>
+    #include <lua/lauxlib.h>   
+}
+
 
 #define _CRTDBG_MAP_ALLOC
 #include <crtdbg.h>
+#undef _CRTDBG_MAP_ALLOC
 
 int main()
 {
@@ -19,6 +18,9 @@ int main()
     {
         Library::GameBase::Game::Run();
     }
+
+    lua_State* l = luaL_newstate();
+    lua_close(l);
 
     return 0;
 }
