@@ -6,7 +6,7 @@ project "Application"
     targetdir(targetBuildPath .. "/%{prj.name}")
     objdir(objBuildPath .. "/%{prj.name}")
     files {"src/**.hpp", "src/**.cpp"}
-    includedirs{"../Library/include", targetBuildPath .. "/External/Include"}
+    includedirs{"../Library/include", targetBuildPath .. "/External/Include", targetBuildPath .. "/External/Include/luajit"}
 
     -- LibDirs doesn't work for some reason. MSVC doesn't find raylib
     --[[libdirs

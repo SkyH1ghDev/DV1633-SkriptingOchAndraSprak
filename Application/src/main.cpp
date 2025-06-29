@@ -1,10 +1,5 @@
 #include <GameBase/Game.hpp>
-extern "C"
-{
-    #include <lua/lua.h>
-    #include <lua/lauxlib.h>   
-}
-
+#include <sol/sol.hpp>
 
 #define _CRTDBG_MAP_ALLOC
 #include <crtdbg.h>
@@ -19,8 +14,7 @@ int main()
         Library::GameBase::Game::Run();
     }
 
-    lua_State* l = luaL_newstate();
-    lua_close(l);
+    sol::state lua;
 
     return 0;
 }
